@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets">
+   <h:head>
+      <title>IGNORED</title>
+   </h:head>
+   <h:body>
+   	  <ui:composition template="/templates/MasterLayout.xhtml">
+   	  	  <ui:define name="windowTitle">
+            #{msgs.customerDetails}
+         </ui:define> 
+   	  	  <ui:define name="content">
+		      <h:form>
+		         <table>
+		            <tr>
+		            	<td><h:outputText value="#{msgs.empNum}" 
+                                style="font-weight: bold"/></td>
+                        <td><h:outputText value="#{msgs.name}" 
+		                        style="font-weight: bold"/></td>
+                        <td><h:outputText value="#{msgs.username}" 
+                        		style="font-weight: bold"/></td>
+                    	<td><h:outputText value="#{msgs.pwd}" 
+                        		style="font-weight: bold"/></td>
+		            </tr>
+		            <tr> 		
+                        <td><h:inputText value="#{newEmp.empNumber}"
+		                            size="10"/></td> 		
+                        <td><h:inputText value="#{newEmp.name}"
+		                            size="10"/></td> 		
+                        <td><h:inputText value="#{newEmp.userName}"
+		                            size="10"/></td> 		
+                        <td><h:inputText value="#{newEmp.creds.password}"
+		                            size="10"/></td>
+		           </tr>
+	         	</table>
+	         	<h:commandButton value="#{msgs.save}" 
+                          action="#{employee.addEmployee(newEmp)}"/>
+		      </h:form>
+	      </ui:define>
+      </ui:composition>
+   </h:body>
+</html>

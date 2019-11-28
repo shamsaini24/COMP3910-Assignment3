@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets">
+   <h:head>
+      <title>IGNORED</title>
+   </h:head>
+   <h:body>
+   	  <ui:composition template="/templates/MasterLayout.xhtml">
+   	  	  <ui:define name="windowTitle">
+            #{msgs.sett}
+         </ui:define> 
+   	  	  <ui:define name="content">
+		      <h:form>
+		          <table class="templateContent">
+		              <tr class="row">
+		              	<td>
+		              		<h:outputText value="#{msgs.empName}" 
+                                style="font-weight: bold"/>
+                        </td>
+                        <td>
+                            <h:outputText value="#{employee.getCurrentEmployee().name}" 
+                                style="font-weight: bold"/>
+                        </td>
+                       </tr>
+                       <tr class="row">
+		              	<td>
+		              		<h:outputText value="#{msgs.empNum}" 
+                                style="font-weight: bold"/>
+                        </td>
+                        <td>
+                            <h:outputText value="#{employee.getCurrentEmployee().empNumber}" 
+                                style="font-weight: bold"/>
+                        </td>
+                       </tr>
+                       <tr class="row">
+		              	<td>
+		              		<h:outputText value="#{msgs.username}" 
+                                style="font-weight: bold"/>
+                        </td>
+                        <td>
+                            <h:outputText value="#{employee.getCurrentEmployee().userName}" 
+                                style="font-weight: bold"/>
+                        </td>
+                       </tr>
+                       <tr class="row">
+                       	 <td>
+		              		<h:commandLink value="#{msgs.pwdchange}" action="changePasswrd"/>
+		                  </td>
+                       </tr>
+		          </table>
+		      </h:form>
+	      </ui:define>
+      </ui:composition>
+   </h:body>
+</html>

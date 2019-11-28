@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:corejsf="http://corejsf.com"
+      xmlns:p="http://primefaces.org/ui">
+   <h:head>
+   		<h:outputStylesheet library="css" name="styles.css"/>
+   		<title>IGNORED</title>
+   </h:head>  
+   <h:body>
+   	<ui:composition template="/templates/MasterLayout.xhtml">
+   		<ui:define name="windowTitle">
+         	#{msgs.hometitle}
+         </ui:define> 
+         
+   		<ui:define name="content">
+   			<h:form id="dataview" >
+   				<p:dataView widgetVar="dv" var="time" value="#{timesheet.getTimesheets(employee.getCurrentEmployee())}" rows="1" paginator="true" 
+                paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}" layout="list" paginatorPosition="bottom" first="#{timesheet.lastIndex}">
+                	<f:facet name="header">
+	            		#{msgs.timesheets}
+	       			</f:facet>
+	                <p:dataViewListItem>
+	            		<h:panelGrid columns="3" style="margin:0 auto">
+                			<p:outputPanel>
+                    			<h:panelGrid columns="2" style="margin-left: 5px; font-weight: bold">
+				   					#{msgs.empNum}
+				   					<h:outputText value="#{employee.getCurrentEmployee().empNumber}"/>
+				   					#{msgs.empName}
+				   					<h:outputText value="#{employee.getCurrentEmployee().name}"/>
+				   				</h:panelGrid>
+		   				<!-- Current week, and end day -->
+				   				<h:panelGrid columns="2" style="margin: -46px 0 0 500px; font-weight: bold">
+				   					#{msgs.week}
+				   					<h:outputText value="#{time.weekNumber}" />
+				   					#{msgs.weekend}
+				   					<h:outputText value="#{time.weekEnding}" />
+				   				</h:panelGrid>
+				   				<h:dataTable value="#{timesheet.getTimesheetRows(time)}" class="datatable"
+				                      var="row" headerClass="timesheetHeader" border="1" cellpadding="4" cellspacing="0">
+				                      
+						            <h:column class="column">
+						            	<f:facet name="header">#{msgs.proj}</f:facet>
+						            	<h:inputText class="tableWidth" value="#{row.projectID}" rendered="#{not timesheet.isCurrent(employee.currentEmployee, time)}" readonly="true"/>
+						            	<h:inputText class="tableWidth" value="#{row.projectID}" rendered="#{timesheet.isCurrent(employee.currentEmployee, time)}"/>
+						            </h:column >
+						            <h:column class="column">
+						            	<f:facet name="header">#{msgs.wp}</f:facet>
+						            	<h:inputText class="tableWidth" value="#{row.workPackage}" rendered="#{not timesheet.isCurrent(employee.currentEmployee, time)}" readonly="true"/>
+						            	<h:inputText class="tableWidth" value="#{row.workPackage}" rendered="#{timesheet.isCurrent(employee.currentEmployee, time)}"/>
+						            </h:column>
+						            <h:column class="column">
+						            	<f:facet name="header">#{msgs.tol}</f:facet>
+						            	<h:inputText class="tableWidth" value="#{row.sum}" readonly="true"/>
+						            </h:column>
+						            <h:column class="column">
+						            	<f:facet name="header">#{msgs.sat}</f:facet>
+						            	<h:inputText class="tableWidth" value="#{row.getHour(0)}" rendered="#{not timesheet.isCurrent(employee.currentEmployee, time)}" readonly="true"/>
+						            	<h:inputText class="tableWidth" label="#{msgs.sat}" value="#{row.hoursForWeek[0]}" rendered="#{timesheet.isCurrent(employee.currentEmployee, time)}">
+						            		<f:validateLongRange minimum="0" maximum="24" />
+						            	</h:inputText>
+						            </h:column>
+						            <h:column class="column">
+						            	<f:facet name="header">#{msgs.sun}</f:facet>
+						            	<h:inputText class="tableWidth" value="#{row.getHour(1)}" rendered="#{not timesheet.isCurrent(employee.currentEmployee, time)}" readonly="true"/>
+						            	<h:inputText class="tableWidth" label="#{msgs.sun}" value="#{row.hoursForWeek[1]}" rendered="#{timesheet.isCurrent(employee.currentEmployee, time)}">
+						            		<f:validateLongRange minimum="0" maximum="24" />
+						            	</h:inputText>
+						            </h:column>
+						            <h:column class="column">
+						            	<f:facet name="header">#{msgs.mon}</f:facet>
+						            	<h:inputText class="tableWidth" value="#{row.getHour(2)}" rendered="#{not timesheet.isCurrent(employee.currentEmployee, time)}" readonly="true"/>
+						            	<h:inputText class="tableWidth" label="#{msgs.mon}" value="#{row.hoursForWeek[2]}" rendered="#{timesheet.isCurrent(employee.currentEmployee, time)}">
+						            		<f:validateLongRange minimum="0" maximum="24" />
+						            	</h:inputText>
+						            </h:column>
+						            <h:column class="column">
+						            	<f:facet name="header">#{msgs.tue}</f:facet>
+						            	<h:inputText class="tableWidth" value="#{row.getHour(3)}" rendered="#{not timesheet.isCurrent(employee.currentEmployee, time)}" readonly="true"/>
+						            	<h:inputText class="tableWidth" label="#{msgs.tue}" value="#{row.hoursForWeek[3]}" rendered="#{timesheet.isCurrent(employee.currentEmployee, time)}">
+						            		<f:validateLongRange minimum="0" maximum="24" />
+						            	</h:inputText>
+						            </h:column>
+						            <h:column class="column">
+						            	<f:facet name="header">#{msgs.wed}</f:facet>
+						            	<h:inputText class="tableWidth" value="#{row.getHour(4)}" rendered="#{not timesheet.isCurrent(employee.currentEmployee, time)}" readonly="true"/>
+						            	<h:inputText class="tableWidth" label="#{msgs.wed}" value="#{row.hoursForWeek[4]}" rendered="#{timesheet.isCurrent(employee.currentEmployee, time)}">
+						            		<f:validateLongRange minimum="0" maximum="24" />
+						            	</h:inputText>
+						            </h:column>
+						            <h:column class="column">
+						            	<f:facet name="header">#{msgs.thu}</f:facet>
+						            	<h:inputText class="tableWidth" value="#{row.getHour(5)}" rendered="#{not timesheet.isCurrent(employee.currentEmployee, time)}" readonly="true"/>
+						            	<h:inputText class="tableWidth" label="#{msgs.thu}" value="#{row.hoursForWeek[5]}" rendered="#{timesheet.isCurrent(employee.currentEmployee, time)}">
+						            		<f:validateLongRange minimum="0" maximum="24" />
+						            	</h:inputText>
+						            </h:column>
+						            <h:column class="column">
+						            	<f:facet name="header">#{msgs.fri}</f:facet>
+						            	<h:inputText class="tableWidth" value="#{row.getHour(6)}" rendered="#{not timesheet.isCurrent(employee.currentEmployee, time)}" readonly="true"/>
+						            	<h:inputText class="tableWidth" label="#{msgs.fri}" value="#{row.hoursForWeek[6]}" rendered="#{timesheet.isCurrent(employee.currentEmployee, time)}">
+						            		<f:validateLongRange minimum="0" maximum="24" />
+						            	</h:inputText>
+						            </h:column>
+						            <h:column class="column">
+						            	<f:facet name="header">#{msgs.note}</f:facet>
+						            	<h:inputText class="tableWidth" value="#{row.notes}" rendered="#{not timesheet.isCurrent(employee.currentEmployee, time)}" readonly="true"/>
+						            	<h:inputText class="tableWidth" value="#{row.notes}" rendered="#{timesheet.isCurrent(employee.currentEmployee, time)}"/>
+						            </h:column>
+				         		</h:dataTable>
+				         		<table>
+				         			<tr>
+				         				<td class="table1">
+				         					<h:outputText value="#{msgs.tol}"/>
+				         				</td>
+				         				<td class="table">
+				         					<h:outputText value="#{timesheet.totalHours}"/>
+				         				</td>
+				         				<td class="table">
+				         					<h:outputText value="#{timesheet.dailyHours[0]}"/>
+				         				</td>
+				         				<td class="table">
+				         					<h:outputText value="#{timesheet.dailyHours[1]}"/>
+				         				</td>
+				         				<td class="table">
+				         					<h:outputText value="#{timesheet.dailyHours[2]}"/>
+				         				</td>
+				         				<td class="table">
+				         					<h:outputText value="#{timesheet.dailyHours[3]}"/>
+				         				</td>
+				         				<td class="table">
+				         					<h:outputText value="#{timesheet.dailyHours[4]}"/>
+				         				</td>
+				         				<td class="table">
+				         					<h:outputText value="#{timesheet.dailyHours[5]}"/>
+				         				</td>
+				         				<td class="table">
+				         					<h:outputText value="#{timesheet.dailyHours[6]}"/>
+				         				</td>
+				         			</tr>
+				         		</table>
+	                		</p:outputPanel>
+            			</h:panelGrid>
+        			
+    		    <!-- buttons here --> 
+    		    		<!-- Save Button for current week -->
+    		    		<h:commandButton action = "#{timesheet.save(time)}" value="Save" rendered="#{timesheet.isCurrent(employee.currentEmployee, time)}" />
+    		    		<!-- Add Row Button for this week -->
+    		    		<h:commandButton action="#{timesheet.addRow(employee.currentEmployee)}" value="Add row" rendered="#{timesheet.isCurrent(employee.currentEmployee, time)}" />   		   		 
+    					<p:commandButton action="#{timesheet.addTimesheet(employee.getCurrentEmployee())}" update="dataview" oncomplete="PF('dv').paginator.setPage(PF('dv').paginator.cfg.pageCount - 1);"
+    						value="#{msgs.createview}" rendered="#{!timesheet.isCurrent(employee.currentEmployee, time)}" />
+    						<h:messages styleClass="errorMessage"/>
+        			</p:dataViewListItem>
+    			</p:dataView>
+    		</h:form>
+   		</ui:define>
+   	</ui:composition>
+   </h:body>
+</html>

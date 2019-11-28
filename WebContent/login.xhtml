@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html">
+  <h:head>
+  	<h:outputStylesheet library="css" name="styles.css"/>
+    <title>#{msgs.welcome}</title>
+  </h:head>
+  <h:body>
+  	<h:form  class="empDiv">
+  		<h3>#{msgs.loginpromote}</h3>
+  		<table>
+  			<tr>
+  				<td>#{msgs.name}</td>
+  				<td><h:inputText id="usernameLogin" label="#{msgs.name}" value="#{employee.creds.userName}" required="true"/></td>
+  				<td><h:message for="passwordLogin" styleClass="errorMessage"/></td>
+  				
+  			</tr>
+  			<tr>
+  				<td>#{msgs.loginpwd}</td>
+  				<td><h:inputSecret id="passwordLogin" label="#{msgs.loginpwd}" value="#{employee.creds.password}" required="true"/></td>
+  				<td><h:message for="usernameLogin" styleClass="errorMessage"/></td>
+  				
+  			</tr>
+  		</table>
+  		<p><h:commandButton value="#{msgs.login}" action="#{employee.login()}"/></p>
+  	</h:form>
+  </h:body>
+</html>

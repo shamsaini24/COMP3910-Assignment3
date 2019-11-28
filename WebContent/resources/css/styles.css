@@ -1,0 +1,92 @@
+#heading {
+   padding: 20px;
+   height: 35px;
+   margin-bottom: 10px;
+   background: #dddddd;
+   border: 1px solid darkGray;
+}
+
+#footer{
+	padding: 20px;
+   height: 30px;
+   margin-bottom: 10px;
+   background: #dddddd;
+   border: 1px solid darkGray;
+   position: relative;
+}
+
+#content {
+   padding: 5px;
+   border: thin solid lightGray;
+   background: #fefeef;
+   position:relative;
+   height: 700px;
+}
+
+.header {
+   font-size: 1.4em;
+   font-style: italic;
+   font-family: Palatino;
+   text-align: center;
+}
+
+.buttons{
+	padding-top: 5px;
+	margin: 0 auto;
+	text-align: center;
+	width: 50%;
+}
+
+.templateContent{
+	margin: 0 auto;
+	padding: 5%;
+	width: 50%;
+}
+
+.ui-selectonebutton{
+	visibility: hidden !important;
+}
+
+.column{
+	width: 50%;
+}
+
+.datatable{
+	margin: 0 auto;
+}
+
+.tableWidth {
+	width: 80px;
+}
+.row{
+	height: 50px;
+}
+
+.empDiv{
+	height: 200px;
+	width: 400px;
+	padding: 5%;
+	transform: translateY(100px);
+	margin: 0 auto;
+	border: 2px solid black;
+	background-color: #ccf2ff;
+}
+
+.addEmpl{
+	transform: translateX(510px);
+}
+.table{
+	width: 88.8px;
+	text-align: center;
+	border: 1px solid black;
+}
+
+.table1{
+	width: 185px;
+	font-weight: bold;
+	font-size: 14pt;
+}
+
+.errorMessage {
+   color: red; 
+}

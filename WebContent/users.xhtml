@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets">
+   <h:head>
+      <title>IGNORED</title>
+   </h:head>
+   <h:body>
+   	  <ui:composition template="/templates/MasterLayout.xhtml">
+   	  	  <ui:define name="windowTitle">
+            #{msgs.empUser}
+         </ui:define> 
+   	  	  <ui:define name="content">
+		      <h:form>
+		         <h:dataTable value="#{employee.employeeList}" var="user" style="margin: 0 auto" border="1" cellpadding="4" cellspacing="0">
+		            <h:column>
+		               <f:facet name="header">
+		                  <h:outputText value="edit" 
+		                                style="font-weight: bold"/>
+		               </f:facet>
+		               <h:selectBooleanCheckbox value="#{user.editable}" onclick="submit()"/>
+	            	</h:column>
+		            <h:column>
+		               <f:facet name="header">
+		                  <h:outputText value="#{msgs.empNum}" 
+		                                style="font-weight: bold"/>
+		               </f:facet>
+		               
+		               <h:outputText value="#{user.empNumber}"/>
+		            </h:column>
+		            <h:column>
+		               <f:facet name="header">
+		                  <h:outputText value="#{msgs.name}" 
+		                                style="font-weight: bold"/>
+		               </f:facet>
+		               <h:inputText value="#{user.name}" rendered="#{user.editable}" 
+		                            size="10"/>
+		               <h:outputText value="#{user.name}" rendered="#{not user.editable}"/>
+		            </h:column>
+		            <h:column>
+		               <f:facet name="header">
+		                  <h:outputText value="#{msgs.username}" 
+		                                style="font-weight: bold"/>
+		               </f:facet>
+		               <h:inputText value="#{user.userName}" rendered="#{user.editable}" 
+		                            size="10"/>
+		               <h:outputText value="#{user.userName}" rendered="#{not user.editable}"/>
+		            </h:column>
+		            <h:column>
+		               <f:facet name="header">
+		                  <h:outputText value="#{msgs.pwd}" 
+		                                style="font-weight: bold"/>
+		               </f:facet>
+		               <h:outputText value="#{employee.getPassword(user)}"/>
+		            </h:column>
+		            <h:column>
+		               <h:outputText value="#{msgs.newPswd}" 
+		                                style="font-weight: bold; display: block"  rendered="#{user.editable}"/>
+		               <h:inputText value="#{newPass.newPassword}"  rendered="#{user.editable}" />
+		            </h:column>
+		            <h:column>
+		            	<h:commandButton value="#{msgs.save}" 
+                          action="#{employee.save(user, newPass.newPassword)}" rendered="#{user.editable}"/>
+                    </h:column>
+                    <h:column>
+		            	<h:commandButton value="#{msgs.delete}" 
+                          action="#{employee.deleteEmployee(user)}" rendered="#{user.editable}"/>
+                    </h:column>
+	         	</h:dataTable>
+	         	<h:commandButton value="#{msgs.addemp}" class="addEmpl"
+                          action="#{employee.createEmployee}"/>
+		      </h:form>
+	      </ui:define>
+      </ui:composition>
+   </h:body>
+</html>
