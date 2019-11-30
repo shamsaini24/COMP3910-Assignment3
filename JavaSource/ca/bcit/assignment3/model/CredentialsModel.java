@@ -1,5 +1,9 @@
 package ca.bcit.assignment3.model;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import ca.bcit.infosys.employee.Credentials;
 import ca.bcit.infosys.employee.Employee;
 
@@ -10,9 +14,10 @@ import ca.bcit.infosys.employee.Employee;
  * @author Sham, Kang
  * @version 1.0
  */
+@XmlRootElement(name = "credential")
 public class CredentialsModel extends ca.bcit.infosys.employee.Credentials {
 
-    /** reference to the employee that owens the credential. */
+    /** reference to the employee that owns the credential. */
     private Employee employee;
     
     /**
@@ -62,4 +67,6 @@ public class CredentialsModel extends ca.bcit.infosys.employee.Credentials {
     public void setEmployee(EmployeeModel employee) {
         this.employee = employee;
     }
-}
+    
+    
+ }

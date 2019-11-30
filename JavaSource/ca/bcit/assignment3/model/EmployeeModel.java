@@ -1,5 +1,9 @@
 package ca.bcit.assignment3.model;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import ca.bcit.infosys.employee.Credentials;
 import ca.bcit.infosys.employee.Employee;
 
@@ -8,6 +12,7 @@ import ca.bcit.infosys.employee.Employee;
  * @author Sham, Kang
  * @version 1.0
  */
+@XmlRootElement(name = "employee")
 public class EmployeeModel extends ca.bcit.infosys.employee.Employee {
     /**
      * boolean to tell us if the employee is admin.
@@ -23,6 +28,7 @@ public class EmployeeModel extends ca.bcit.infosys.employee.Employee {
      * boolean to edit the users.
      */
     private boolean editable;
+
     
     Credentials creds = new Credentials();
     /**
@@ -71,6 +77,7 @@ public class EmployeeModel extends ca.bcit.infosys.employee.Employee {
      * check if logged in user is admin.
      * @return boolean
      */
+    @XmlElement
     public boolean isAdmin() {
         return admin;
     }
@@ -87,6 +94,7 @@ public class EmployeeModel extends ca.bcit.infosys.employee.Employee {
      * check if any employee logged in.
      * @return boolean
      */
+    @XmlElement
     public boolean isLoggedIn() {
         return loggedIn;
     }
@@ -103,6 +111,7 @@ public class EmployeeModel extends ca.bcit.infosys.employee.Employee {
      * check if the fields are editable.
      * @return editable
      */
+    @XmlElement
     public boolean isEditable() {
         return editable;
     }
@@ -130,4 +139,10 @@ public class EmployeeModel extends ca.bcit.infosys.employee.Employee {
     public void setCreds(Credentials creds) {
         this.creds = creds;
     }
+    
+
+    
+    
+    
+    
 }

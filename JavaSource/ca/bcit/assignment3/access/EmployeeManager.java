@@ -154,7 +154,7 @@ public class EmployeeManager implements Serializable {
      * @param employee
      *            the record to be merged.
      */
-    public void merge(EmployeeModel employee) {
+    public void merge(Employee employee) {
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
