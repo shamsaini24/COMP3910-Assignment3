@@ -15,8 +15,12 @@ public class EmployeeApplication extends Application
    {
       singletons.add(new EmployeeResource());
       singletons.add(new CredentialResource());
+      singletons.add(new LoginResource());
+
       classes.add(EmployeeResource.class);
       classes.add(CredentialResource.class);
+      classes.add(LoginResource.class);
+
    }
    
    @Override

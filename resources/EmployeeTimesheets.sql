@@ -18,6 +18,9 @@ CREATE TABLE Credentials(EmpNum int, EmpUsername TINYTEXT, EmpPassword TINYTEXT)
 INSERT INTO Credentials VALUES (0, "admin", "admin");
 INSERT INTO Credentials VALUES (1, "sham", "saini");
 
+DROP TABLE IF EXISTS Tokens;
+CREATE TABLE Tokens(TokenID TINYTEXT, EmpNum int, ExpDate DATE);
+
 
 DROP TABLE IF EXISTS Timesheets;
 CREATE TABLE Timesheets (TimesheetId int, EmpNum int, EndWeek DATE);
