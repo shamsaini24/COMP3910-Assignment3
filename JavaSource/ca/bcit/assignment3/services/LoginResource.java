@@ -1,6 +1,7 @@
 package ca.bcit.assignment3.services;
 
 import java.net.URI;
+import java.util.Base64;
 import java.util.Date;
 
 import javax.inject.Inject;
@@ -35,7 +36,6 @@ public class LoginResource {
     public LoginResource(){}
 
     
-    //WE NEED TO FIGURE OUT HOW TO PASS A REFERENCE TO AN EMPLOYEE IN THE OBJECT
     @POST
     @Consumes("application/xml")
     @Produces("application/xml")
@@ -43,10 +43,19 @@ public class LoginResource {
         
         EmployeeModel emp = employeeDB.find(credential.getUserName());
         
-       if(credentialDB.find(emp.getEmpNumber()) == null) {
+       if(credentialDB.find(emp.getEmpNumber()) == null) {//If credentials exist
            return null;
        } else {
-           return new TokenModel("test token", emp.getEmpNumber(), new Date());
+           String originalInput = String.valueOf(emp.getEmpNumber());
+           String encodedString = Base64.getEncoder().encodeToString(originalInput.getBytes());
+           if(tokenDB.find(emp.getEmpNumber()) != null) { //If token already exists
+               return tokenDB.find(emp.getEmpNumber());
+           }
+           TokenModel userToken  = new TokenModel(encodedString, emp.getEmpNumber(), new Date());
+           tokenDB.persist(userToken);
+//           byte[] decodedBytes = Base64.getUrlDecoder().decode(testoken.getToken());
+//           String decodedUrl = new String(decodedBytes);
+           return userToken;
        }
     }
 

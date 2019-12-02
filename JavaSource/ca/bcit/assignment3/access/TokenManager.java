@@ -6,7 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -82,10 +85,13 @@ public class TokenManager implements Serializable {
                             .executeQuery("SELECT * FROM Tokens "
                                     + "where EmpNum = '" + empNum + "'");
                     if (result.next()) {
+                        
+                        Timestamp time = result.getTimestamp("ExpTime");
+                        Date test = new java.util.Date(time.getTime());
                         return new TokenModel(
                                 result.getString("TokenID"),
                                 result.getInt("EmpNum"),
-                                result.getDate("ExpDate"));
+                                test);
                     } else {
                         return null;
                     }
@@ -121,11 +127,12 @@ public class TokenManager implements Serializable {
                 connection = ds.getConnection();
                 try {
                     stmt = connection.prepareStatement(
-                            "INSERT INTO Tokens VALUES (?, ?, ?)");
+                            "INSERT INTO Tokens VALUES (?, ?, ?, ?)");
                     stmt.setString(1, token.getToken());
                     stmt.setInt(2, token.getEmpNum());
                     stmt.setDate(3, new java.sql.Date(
                             token.getExpDate().getTime()));
+                    stmt.setTimestamp(4, new java.sql.Timestamp(token.getExpDate().getTime()));
                     stmt.executeUpdate();
                 } finally {
                     if (stmt != null) {

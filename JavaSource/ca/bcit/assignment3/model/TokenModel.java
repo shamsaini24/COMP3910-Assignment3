@@ -24,8 +24,7 @@ public class TokenModel implements Serializable{
         this.empNum = empNum;
         this.expDate = expDate;
     }
-
-
+    
     @XmlAttribute
     public String getToken() {
         return token;
@@ -48,12 +47,9 @@ public class TokenModel implements Serializable{
     public Date getExpDate() {
         return expDate;
     }
+    
     public void setExpDate(Date expDate) {
         this.expDate = expDate;
     }
     
-    
-    
-    
-
 }
