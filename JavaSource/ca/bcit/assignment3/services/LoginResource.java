@@ -55,6 +55,7 @@ public class LoginResource {
            tokenDB.persist(userToken);
 //           byte[] decodedBytes = Base64.getUrlDecoder().decode(testoken.getToken());
 //           String decodedUrl = new String(decodedBytes);
+           
            return userToken;
        }
     }

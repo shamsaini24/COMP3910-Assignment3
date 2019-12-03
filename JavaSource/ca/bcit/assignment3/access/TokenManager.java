@@ -42,9 +42,11 @@ public class TokenManager implements Serializable {
                             .executeQuery("SELECT * FROM Tokens "
                                     + "where TokenID = '" + token + "'");
                     if (result.next()) {
+                        Timestamp time = result.getTimestamp("ExpTime");
+                        Date dateTime = new java.util.Date(time.getTime());
                         return new TokenModel(result.getString("TokenID"),
                                 result.getInt("EmpNum"),
-                                result.getDate("ExpDate"));
+                                dateTime);
                     } else {
                         return null;
                     }
@@ -87,11 +89,11 @@ public class TokenManager implements Serializable {
                     if (result.next()) {
                         
                         Timestamp time = result.getTimestamp("ExpTime");
-                        Date test = new java.util.Date(time.getTime());
+                        Date dateTime = new java.util.Date(time.getTime());
                         return new TokenModel(
                                 result.getString("TokenID"),
                                 result.getInt("EmpNum"),
-                                test);
+                                dateTime);
                     } else {
                         return null;
                     }
@@ -263,5 +265,18 @@ public class TokenManager implements Serializable {
 
         TokenModel[] catarray = new TokenModel[tokenList.size()];
         return tokenList.toArray(catarray);
+    }
+    
+    public boolean verifyToken(String token) {
+        TokenModel foundToken = find(token);
+        Date date = new Date();
+        long diff = date.getTime() - foundToken.getExpDate().getTime();
+        long diffHours = diff / (60 * 60 * 1000) % 24;
+
+        if(diffHours > 1) {
+            remove(foundToken);
+            return false;
+        }
+        return true;
     }
 }
