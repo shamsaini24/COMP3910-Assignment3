@@ -219,6 +219,39 @@ public class EmployeeManager implements Serializable {
             ex.printStackTrace();
         }
     }
+    
+    /**
+     * Remove employee from database.
+     * 
+     * @param empNum
+     *            id of record to be removed from database
+     */
+    public void remove(int empNum) {
+        Connection connection = null;        
+        PreparedStatement stmt = null;
+        try {
+            try {
+                connection = ds.getConnection();
+                try {
+                    stmt = connection.prepareStatement(
+                            "DELETE FROM Employees WHERE EmpNum =  ?");
+                    stmt.setInt(1, empNum);
+                    stmt.executeUpdate();
+                } finally {
+                    if (stmt != null) {
+                        stmt.close();
+                    }
+                }
+            } finally {
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error in remove " + empNum);
+            ex.printStackTrace();
+        }
+    }
 
     /**
      * Return Employees table as array of Employees.

@@ -3,6 +3,7 @@ package ca.bcit.assignment3.services;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -83,6 +84,19 @@ public class EmployeeResource {
        employeeDB.merge((EmployeeModel) current);
        }
    }
+   
+   @DELETE
+   @Path("{empNum}")
+   public boolean deleteOrderByEmpNum(@PathParam("empNum") int empNum, @QueryParam("token") String token ) {
+       TokenModel retrivedToken = tokenDB.find(token);
+       if(tokenDB.verifyToken(token) && retrivedToken.getEmpNum()==0) {
+           employeeDB.remove(empNum);
+           credentialDB.remove(credentialDB.find(empNum));
+           return true;
+       }
+    return false;
+   }
+   
    
    @GET
    @Produces("application/xml")
