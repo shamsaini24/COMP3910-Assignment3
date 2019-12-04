@@ -44,8 +44,6 @@ public class EmployeeResource {
            return Response.created(URI.create("/employees/" + employee.getEmpNumber())).build();
        }
        return Response.notModified().build();
-
-      
    }
 
    @GET
@@ -61,27 +59,23 @@ public class EmployeeResource {
    }
 
    @PUT
-   @Path("{id}")
+   @Path("{empNum}")
    @Consumes("application/xml")
-   public void updateSupplier(@PathParam("id") int id, Employee update) {
+   public void updateEmployee(@PathParam("empNum") int id, @QueryParam("token") String token, EmployeeModel update) {
+       
+       TokenModel retrivedToken = tokenDB.find(token);
+       if(tokenDB.verifyToken(token) && (retrivedToken.getEmpNum()==0 || retrivedToken.getEmpNum() == update.getEmpNumber())) {
+       
        Employee current = employeeDB.find(id);
-      if (current == null) throw new WebApplicationException(Response.Status.NOT_FOUND);
-
-//      current.setAddress(update.getAddress());
-//      current.setCity(update.getCity());
-//      current.setContactName(update.getContactName());
-//      current.setContactTitle(update.getContactTitle());
-//      current.setCountry(update.getCountry());
-//      current.setEmailAddress(update.getEmailAddress());
-//      current.setFaxNumber(update.getFaxNumber());
-//      current.setNotes(update.getNotes());
-//      current.setPaymentTerms(update.getPaymentTerms());
-//      current.setPhoneNumber(update.getPhoneNumber());
-//      current.setPostalCode(update.getPostalCode());
-//      current.setStateOrProvince(update.getStateOrProvince());
-      current.setName(update.getName());
+       if (current == null) throw new WebApplicationException(Response.Status.NOT_FOUND);
+    
+    
+       current.setName(update.getName());
+       current.setUserName(update.getUserName());
+       current.setEmpNumber(update.getEmpNumber());
       
-      employeeDB.merge((EmployeeModel) current);
+       employeeDB.merge((EmployeeModel) current);
+       }
    }
    
    @GET
