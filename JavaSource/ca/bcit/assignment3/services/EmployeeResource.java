@@ -13,8 +13,10 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
+import ca.bcit.assignment3.access.CredentialManager;
 import ca.bcit.assignment3.access.EmployeeManager;
 import ca.bcit.assignment3.access.TokenManager;
+import ca.bcit.assignment3.model.CredentialsModel;
 import ca.bcit.assignment3.model.EmployeeModel;
 import ca.bcit.assignment3.model.TokenModel;
 import ca.bcit.infosys.employee.Employee;
@@ -27,8 +29,12 @@ public class EmployeeResource {
    @Inject
    private EmployeeManager employeeDB;
    
+   @Inject
+   private CredentialManager credentialDB;
+   
    @Inject 
    private TokenManager tokenDB;
+   
    
    public EmployeeResource()
    {
@@ -40,6 +46,7 @@ public class EmployeeResource {
        TokenModel retrivedToken = tokenDB.find(token);
        if(tokenDB.verifyToken(token) && retrivedToken.getEmpNum()==0) {
            employeeDB.persist(employee);
+           credentialDB.persist(new CredentialsModel(employee, employee.getUserName(), "test"));
            System.out.println("Created supplier " + employee.getEmpNumber());
            return Response.created(URI.create("/employees/" + employee.getEmpNumber())).build();
        }
@@ -68,8 +75,7 @@ public class EmployeeResource {
        
        Employee current = employeeDB.find(id);
        if (current == null) throw new WebApplicationException(Response.Status.NOT_FOUND);
-    
-    
+        
        current.setName(update.getName());
        current.setUserName(update.getUserName());
        current.setEmpNumber(update.getEmpNumber());
