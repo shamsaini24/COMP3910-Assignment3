@@ -24,9 +24,14 @@ import ca.bcit.infosys.employee.Credentials;
 import ca.bcit.infosys.employee.Employee;
 
 import java.net.URI;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Path("/employees")
+/**
+ * Handling any Employee related activities using REST.
+ * @author Sham, Kang
+ * @version 1.0
+ *
+ */
 public class EmployeeResource {
    @Inject
    private EmployeeManager employeeDB;
@@ -37,51 +42,78 @@ public class EmployeeResource {
    @Inject 
    private TokenManager tokenDB;
    
-   
-   public EmployeeResource()
-   {
+   /**
+    * Default EmployeeResource constructor.
+    */ 
+   public EmployeeResource() {
    }
 
+  
+   /**
+    * Creates an Employee, along with their Credentials.
+    * @param token A String
+    * @param employee Employee to be created
+    * @return Response to indicate successs
+    */
    @POST
    @Consumes("application/xml")
-   public Response createEmployee(@QueryParam("token") String token, EmployeeModel employee) {//URI is as follows: .../COMP3910-Assignment3/services/employees?token=[Token String]
+   //URI: .../COMP3910-Assignment3/services/employees?token=[Token String]
+   public Response createEmployee(@QueryParam("token") String token,
+           EmployeeModel employee) {
        TokenModel retrivedToken = tokenDB.find(token);
-       if(tokenDB.verifyToken(token) && retrivedToken.getEmpNum()==0) {
+       if (tokenDB.verifyToken(token) && retrivedToken.getEmpNum() == 0) {
            employeeDB.persist(employee);
            Credentials creds = employee.getCreds();
-           if(creds!=null) {
-               credentialDB.persist(new CredentialsModel(employee, creds.getUserName(), creds.getPassword()));
+           if (creds != null) {
+               credentialDB.persist(new CredentialsModel(employee,
+                       creds.getUserName(), creds.getPassword()));
            } else {
-               credentialDB.persist(new CredentialsModel(employee, employee.getUserName(), "defaultPassword"));
+               credentialDB.persist(new CredentialsModel(employee,
+                       employee.getUserName(), "defaultPassword"));
            }
            System.out.println("Created supplier " + employee.getEmpNumber());
-           return Response.created(URI.create("/employees/" + employee.getEmpNumber())).build();
+           return Response.created(URI.create("/employees/" +
+           employee.getEmpNumber())).build();
        }
        return Response.notModified().build();
    }
-
+   
+/**
+ * Retrieves an employee by their id.
+ * @param id identifies specific employee
+ * @return Employee found
+ */
    @GET
    @Path("{id}")
    @Produces("application/xml")
    public Employee getEmployee(@PathParam("id") int id) {
        Employee employee = employeeDB.find(id);
-      if (employee == null)
-      {
+      if (employee == null) {
          throw new WebApplicationException(Response.Status.NOT_FOUND);
       }
       return employee;
    }
 
+   /**
+    * Update's an employee by their id.
+    * @param id identifies specific employee
+    * @param token verification token
+    * @param update updated EmployeeModel
+    */
    @PUT
    @Path("{empNum}")
    @Consumes("application/xml")
-   public void updateEmployee(@PathParam("empNum") int id, @QueryParam("token") String token, EmployeeModel update) {
+   public void updateEmployee(@PathParam("empNum") int id,
+           @QueryParam("token") String token, EmployeeModel update) {
        
        TokenModel retrivedToken = tokenDB.find(token);
-       if(tokenDB.verifyToken(token) && (retrivedToken.getEmpNum()==0 || retrivedToken.getEmpNum() == update.getEmpNumber())) {
+       if (tokenDB.verifyToken(token) && (retrivedToken.getEmpNum() == 0 
+               || retrivedToken.getEmpNum() == update.getEmpNumber())) {
        
        Employee current = employeeDB.find(id);
-       if (current == null) throw new WebApplicationException(Response.Status.NOT_FOUND);
+       if (current == null) {
+        throw new WebApplicationException(Response.Status.NOT_FOUND);
+       }
         
        current.setName(update.getName());
        current.setUserName(update.getUserName());
@@ -91,11 +123,18 @@ public class EmployeeResource {
        }
    }
    
+   /**
+    * Deletes an employee by their Employee Number.
+    * @param empNum identifies an employee
+    * @param token verification token
+    * @return boolean, indicating success or failure
+    */
    @DELETE
    @Path("{empNum}")
-   public boolean deleteOrderByEmpNum(@PathParam("empNum") int empNum, @QueryParam("token") String token ) {
+   public boolean deleteOrderByEmpNum(@PathParam("empNum") int empNum,
+           @QueryParam("token") String token) {
        TokenModel retrivedToken = tokenDB.find(token);
-       if(tokenDB.verifyToken(token) && retrivedToken.getEmpNum()==0) {
+       if (tokenDB.verifyToken(token) && retrivedToken.getEmpNum() == 0) {
            employeeDB.remove(empNum);
            credentialDB.remove(credentialDB.find(empNum));
            return true;
