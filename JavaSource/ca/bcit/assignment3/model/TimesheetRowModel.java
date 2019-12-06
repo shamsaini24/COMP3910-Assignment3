@@ -2,6 +2,11 @@ package ca.bcit.assignment3.model;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * TimesheetRowModel that extends TimesheetRow in order to create the
  *  primary key (timesheetRowId).
@@ -9,6 +14,7 @@ import java.math.BigDecimal;
  * @author Sham, Kang
  * @version 1.0
  */
+@XmlRootElement(name = "timesheetrow")
 public class TimesheetRowModel extends ca.bcit.infosys.timesheet.TimesheetRow {
 
     /**
@@ -18,8 +24,16 @@ public class TimesheetRowModel extends ca.bcit.infosys.timesheet.TimesheetRow {
     /**
      * primary key for each timesheetrow.
      */
+    @Id
+    @Column(name="TimesheetRowID")
     private int timesheetRowId;
    
+    
+    public TimesheetRowModel() {
+        super();
+        timesheetModel = new TimesheetModel();
+    }
+    
     /**
      * TimesheetRow Constructor.
      * @param id
@@ -65,6 +79,7 @@ public class TimesheetRowModel extends ca.bcit.infosys.timesheet.TimesheetRow {
      * Getter for timesheetRowId.
      * @return timesheetRowId
      */
+    @XmlAttribute
     public int getTimesheetRowId() {
         return timesheetRowId;
     }

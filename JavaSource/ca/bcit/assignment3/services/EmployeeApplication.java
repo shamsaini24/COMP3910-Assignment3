@@ -16,10 +16,14 @@ public class EmployeeApplication extends Application
       singletons.add(new EmployeeResource());
       singletons.add(new CredentialResource());
       singletons.add(new LoginResource());
-
+      singletons.add(new TimesheetResource());
+      singletons.add(new TimesheetRowResource());
+      
       classes.add(EmployeeResource.class);
       classes.add(CredentialResource.class);
       classes.add(LoginResource.class);
+      classes.add(TimesheetResource.class);
+      classes.add(TimesheetRowResource.class);
 
    }
    

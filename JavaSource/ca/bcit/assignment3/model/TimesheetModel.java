@@ -2,6 +2,12 @@ package ca.bcit.assignment3.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import ca.bcit.infosys.employee.Employee;
 import ca.bcit.infosys.timesheet.TimesheetRow;
 /**
@@ -11,6 +17,7 @@ import ca.bcit.infosys.timesheet.TimesheetRow;
  * @author Sham, Kang
  * @version 1.0
  */
+@XmlRootElement(name = "timesheet")
 public class TimesheetModel extends ca.bcit.infosys.timesheet.Timesheet {
 
     /**
@@ -20,6 +27,8 @@ public class TimesheetModel extends ca.bcit.infosys.timesheet.Timesheet {
     /**
      * primary key timesheetId.
      */
+    @Id
+    @Column(name="TimesheetID")
     private int timesheetId;
     
     
@@ -64,6 +73,7 @@ public class TimesheetModel extends ca.bcit.infosys.timesheet.Timesheet {
      * getter for timesheetId.
      * @return the timesheetId.
      */
+    @XmlAttribute
     public int getTimesheetId() {
         return timesheetId;
     }
