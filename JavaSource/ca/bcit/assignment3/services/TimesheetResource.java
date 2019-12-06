@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -15,8 +16,10 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
+import ca.bcit.assignment3.access.EmployeeManager;
 import ca.bcit.assignment3.access.TimesheetManager;
 import ca.bcit.assignment3.access.TokenManager;
+import ca.bcit.assignment3.model.EmployeeModel;
 import ca.bcit.assignment3.model.TimesheetModel;
 import ca.bcit.assignment3.model.TokenModel;
 
@@ -35,6 +38,8 @@ public class TimesheetResource {
     // TimesheetDB
     @Inject
     private TimesheetManager timesheetDB;
+    @Inject
+    private EmployeeManager employeeDB;
     
     /**
      * create a new timesheet if the current time sheet does not exist
@@ -44,13 +49,15 @@ public class TimesheetResource {
      */
     @POST
     @Consumes("application/xml")
-    public Response createTimesheet(@QueryParam("token") String token, TimesheetModel tm) {
+    public Response createTimesheet(@QueryParam("token") String token) {
         TokenModel retrivedToken = tokenDB.find(token);
         //if no current time sheet
         if(tokenDB.verifyToken(token) && !hasCurrentTimesheet(retrivedToken.getEmpNum())) {
+            
+            TimesheetModel tm = new TimesheetModel(timesheetDB.getAll().length, 
+                    employeeDB.find(retrivedToken.getEmpNum()), calculateCurrentEndWeek());
             timesheetDB.persist(tm);
         }
-        
         return Response.notModified().build();
     }
     
@@ -114,6 +121,25 @@ public class TimesheetResource {
                             == tsArr[i].getEndWeek().getDay()) {
                         return true;
                     }
+                }
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * check if the timesheet is current timesheet
+     * @param tm
+     * @return
+     */
+    private boolean isCurrentTimesheet(TimesheetModel tm) {
+        if (calculateCurrentEndWeek().getYear() 
+                == tm.getEndWeek().getYear()) {
+            if (calculateCurrentEndWeek().getMonth() 
+                    == tm.getEndWeek().getMonth()) {
+                if (calculateCurrentEndWeek().getDay() 
+                        == tm.getEndWeek().getDay()) {
+                    return true;
                 }
             }
         }
