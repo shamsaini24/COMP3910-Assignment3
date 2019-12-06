@@ -20,6 +20,7 @@ import ca.bcit.assignment3.access.TokenManager;
 import ca.bcit.assignment3.model.CredentialsModel;
 import ca.bcit.assignment3.model.EmployeeModel;
 import ca.bcit.assignment3.model.TokenModel;
+import ca.bcit.infosys.employee.Credentials;
 import ca.bcit.infosys.employee.Employee;
 
 import java.net.URI;
@@ -47,7 +48,12 @@ public class EmployeeResource {
        TokenModel retrivedToken = tokenDB.find(token);
        if(tokenDB.verifyToken(token) && retrivedToken.getEmpNum()==0) {
            employeeDB.persist(employee);
-           credentialDB.persist(new CredentialsModel(employee, employee.getUserName(), "test"));
+           Credentials creds = employee.getCreds();
+           if(creds!=null) {
+               credentialDB.persist(new CredentialsModel(employee, creds.getUserName(), creds.getPassword()));
+           } else {
+               credentialDB.persist(new CredentialsModel(employee, employee.getUserName(), "defaultPassword"));
+           }
            System.out.println("Created supplier " + employee.getEmpNumber());
            return Response.created(URI.create("/employees/" + employee.getEmpNumber())).build();
        }
