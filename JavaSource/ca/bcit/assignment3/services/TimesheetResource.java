@@ -42,6 +42,12 @@ public class TimesheetResource {
     private EmployeeManager employeeDB;
     
     /**
+     * default constructor
+     */
+    public TimesheetResource() {
+        
+    }
+    /**
      * create a new timesheet if the current time sheet does not exist
      * @param token
      * @param tm
@@ -109,7 +115,7 @@ public class TimesheetResource {
      * @param empNum
      * @return
      */
-    private boolean hasCurrentTimesheet(int empNum) {
+    public boolean hasCurrentTimesheet(int empNum) {
         TimesheetModel[] tsArr = timesheetDB.getByEmployee(empNum);
         
         for(int i = 0; i < tsArr.length; i++) {
