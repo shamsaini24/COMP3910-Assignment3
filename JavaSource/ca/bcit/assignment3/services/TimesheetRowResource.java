@@ -67,7 +67,7 @@ public class TimesheetRowResource {
     }
     
     /**
-     * update the current week timesheet
+     * update the current week timesheet.
      * @param id
      * @param token
      * @param update
@@ -75,7 +75,7 @@ public class TimesheetRowResource {
     @PUT
     @Path("{timesheetrowid}")
     @Consumes("application/xml")
-    public void updateEmployee(@PathParam("timesheetrowid") int id, @QueryParam("token") String token, TimesheetRowModel update) {
+    public void updateTimesheetRow(@PathParam("timesheetrowid") int id, @QueryParam("token") String token, TimesheetRowModel update) {
         if(tokenDB.verifyToken(token)) {
             TimesheetRowModel current = timesheetRowDB.find(id);
             if (current == null) throw new WebApplicationException(Response.Status.NOT_FOUND);

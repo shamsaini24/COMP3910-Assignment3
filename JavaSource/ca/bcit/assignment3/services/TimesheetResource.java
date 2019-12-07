@@ -25,7 +25,7 @@ import ca.bcit.assignment3.model.TokenModel;
 
 /**
  * 
- * Handling Timesheet CRUD on RESTful Web
+ * Handling Timesheet CRUD on RESTful Web.
  * @author Sham, Kang
  * @version 1.0
  */
